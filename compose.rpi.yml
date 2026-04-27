@@ -1,0 +1,9 @@
+services:
+  mediamtx:
+    image: ${MEDIAMTX_IMAGE:-bluenviron/mediamtx:1-ffmpeg-rpi}
+    privileged: true
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml
+      - ./recordings:/recordings
+      - ./certs:/certs
+      - /run/udev:/run/udev:ro

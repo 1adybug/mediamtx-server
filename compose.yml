@@ -1,0 +1,41 @@
+name: mediamtx-server
+
+services:
+  mediamtx:
+    image: ${MEDIAMTX_IMAGE:-bluenviron/mediamtx:1-ffmpeg}
+    container_name: mediamtx
+    restart: unless-stopped
+    environment:
+      MTX_LOGLEVEL: ${LOG_LEVEL:-info}
+      MTX_WEBRTCADDITIONALHOSTS: ${WEBRTC_ADDITIONAL_HOSTS:-127.0.0.1}
+    ports:
+      # 控制面端口。
+      - "${API_PORT:-9997}:9997/tcp"
+      - "${METRICS_PORT:-9998}:9998/tcp"
+      - "${PPROF_PORT:-9999}:9999/tcp"
+      - "${PLAYBACK_PORT:-9996}:9996/tcp"
+
+      # 媒体协议端口。
+      - "${RTSP_PORT:-8554}:8554/tcp"
+      - "${RTSPS_PORT:-8322}:8322/tcp"
+      - "${RTMP_PORT:-1935}:1935/tcp"
+      - "${RTMPS_PORT:-1936}:1936/tcp"
+      - "${HLS_PORT:-8888}:8888/tcp"
+      - "${WEBRTC_HTTP_PORT:-8889}:8889/tcp"
+      - "${WEBRTC_ICE_PORT:-8189}:8189/udp"
+      - "${WEBRTC_ICE_TCP_PORT:-8189}:8189/tcp"
+      - "${SRT_PORT:-8890}:8890/udp"
+
+      # RTSP UDP、组播和安全 RTP 变体端口。
+      - "${RTP_PORT:-8000}:8000/udp"
+      - "${RTCP_PORT:-8001}:8001/udp"
+      - "${MULTICAST_RTP_PORT:-8002}:8002/udp"
+      - "${MULTICAST_RTCP_PORT:-8003}:8003/udp"
+      - "${SRTP_PORT:-8004}:8004/udp"
+      - "${SRTCP_PORT:-8005}:8005/udp"
+      - "${MULTICAST_SRTP_PORT:-8006}:8006/udp"
+      - "${MULTICAST_SRTCP_PORT:-8007}:8007/udp"
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml
+      - ./recordings:/recordings
+      - ./certs:/certs

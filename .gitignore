@@ -1,0 +1,6 @@
+.env
+*.log
+recordings/*
+!recordings/.gitkeep
+certs/*
+!certs/.gitkeep
