@@ -37,7 +37,7 @@ docker compose -f compose.yml -f compose.rpi.yml up -d
 docker compose up -d
 ```
 
-当前机器上已有 `mediamtx-gateway` 占用 `9997`，所以本地 `.env` 已把 API 映射到 `19997`。如果你的环境没有端口冲突，可以删除 `.env` 或把 `API_PORT` 改回 `9997`。
+示例均使用 MediaMTX 默认端口。若本机通过 `.env` 覆盖了端口，以 `.env` 中的实际端口为准。
 
 默认管理员：
 
@@ -52,7 +52,7 @@ pass: change-me
 
 | 功能        | 本地地址                             |
 | ----------- | ------------------------------------ |
-| Control API | `http://127.0.0.1:19997`             |
+| Control API | `http://127.0.0.1:9997`              |
 | Metrics     | `http://127.0.0.1:9998/metrics`      |
 | pprof       | `http://127.0.0.1:9999/debug/pprof/` |
 | Playback    | `http://127.0.0.1:9996`              |
@@ -70,15 +70,15 @@ PowerShell：
 
 ```powershell
 $auth = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes('admin:change-me'))
-Invoke-WebRequest -UseBasicParsing http://127.0.0.1:19997/v3/config/global/get -Headers @{ Authorization = $auth }
-Invoke-WebRequest -UseBasicParsing http://127.0.0.1:19997/v3/paths/list -Headers @{ Authorization = $auth }
+Invoke-WebRequest -UseBasicParsing http://127.0.0.1:9997/v3/config/global/get -Headers @{ Authorization = $auth }
+Invoke-WebRequest -UseBasicParsing http://127.0.0.1:9997/v3/paths/list -Headers @{ Authorization = $auth }
 ```
 
 curl：
 
 ```bash
-curl -u admin:change-me http://127.0.0.1:19997/v3/config/global/get
-curl -u admin:change-me http://127.0.0.1:19997/v3/paths/list
+curl -u admin:change-me http://127.0.0.1:9997/v3/config/global/get
+curl -u admin:change-me http://127.0.0.1:9997/v3/paths/list
 ```
 
 ## WebRTC
@@ -98,7 +98,7 @@ MediaMTX 不需要单独的“转换接口”。做法是先创建一个 path，
 下面示例统一使用：
 
 ```text
-Control API: http://127.0.0.1:19997
+Control API: http://127.0.0.1:9997
 WebRTC: http://127.0.0.1:8889
 path: cam1
 ```
@@ -108,7 +108,7 @@ path: cam1
 最直接的方式是读取 path 配置：
 
 ```ts
-const MTX_API_BASE = "http://127.0.0.1:19997"
+const MTX_API_BASE = "http://127.0.0.1:9997"
 const MTX_AUTH = "Basic " + btoa("admin:change-me")
 
 async function getPathConfig(pathName: string) {
