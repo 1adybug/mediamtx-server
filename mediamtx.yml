@@ -1,6 +1,3 @@
-
-
-
 logLevel: info
 logDestinations: [stdout]
 logStructured: false
@@ -18,35 +15,34 @@ runOnConnect:
 runOnConnectRestart: false
 runOnDisconnect:
 
-
 authMethod: internal
 
 authInternalUsers:
-- user: any
-  pass:
-  ips: []
-  permissions:
-  - action: publish
-    path:
-  - action: read
-    path:
-  - action: playback
-    path:
+    - user: any
+      pass:
+      ips: []
+      permissions:
+          - action: publish
+            path:
+          - action: read
+            path:
+          - action: playback
+            path:
 
-- user: admin
-  pass: change-me
-  ips: []
-  permissions:
-  - action: api
-  - action: metrics
-  - action: pprof
+    - user: admin
+      pass: change-me
+      ips: []
+      permissions:
+          - action: api
+          - action: metrics
+          - action: pprof
 
 authHTTPAddress:
 authHTTPFingerprint:
 authHTTPExclude:
-- action: api
-- action: metrics
-- action: pprof
+    - action: api
+    - action: metrics
+    - action: pprof
 
 authJWTJWKS:
 authJWTJWKSFingerprint:
@@ -55,42 +51,37 @@ authJWTExclude: []
 authJWTIssuer:
 authJWTAudience:
 
-
 api: true
 apiAddress: :9997
 apiEncryption: false
 apiServerKey: /certs/server.key
 apiServerCert: /certs/server.crt
-apiAllowOrigins: ['*']
+apiAllowOrigins: ["*"]
 apiTrustedProxies: []
-
 
 metrics: true
 metricsAddress: :9998
 metricsEncryption: false
 metricsServerKey: /certs/server.key
 metricsServerCert: /certs/server.crt
-metricsAllowOrigins: ['*']
+metricsAllowOrigins: ["*"]
 metricsTrustedProxies: []
-
 
 pprof: true
 pprofAddress: :9999
 pprofEncryption: false
 pprofServerKey: /certs/server.key
 pprofServerCert: /certs/server.crt
-pprofAllowOrigins: ['*']
+pprofAllowOrigins: ["*"]
 pprofTrustedProxies: []
-
 
 playback: true
 playbackAddress: :9996
 playbackEncryption: false
 playbackServerKey: /certs/server.key
 playbackServerCert: /certs/server.crt
-playbackAllowOrigins: ['*']
+playbackAllowOrigins: ["*"]
 playbackTrustedProxies: []
-
 
 rtsp: true
 rtspTransports: [udp, multicast, tcp]
@@ -110,7 +101,6 @@ rtspServerKey: /certs/server.key
 rtspServerCert: /certs/server.crt
 rtspAuthMethods: [basic]
 
-
 rtmp: true
 rtmpEncryption: "no"
 rtmpAddress: :1935
@@ -118,13 +108,12 @@ rtmpsAddress: :1936
 rtmpServerKey: /certs/server.key
 rtmpServerCert: /certs/server.crt
 
-
 hls: true
 hlsAddress: :8888
 hlsEncryption: false
 hlsServerKey: /certs/server.key
 hlsServerCert: /certs/server.crt
-hlsAllowOrigins: ['*']
+hlsAllowOrigins: ["*"]
 hlsTrustedProxies: []
 hlsAlwaysRemux: false
 hlsVariant: lowLatency
@@ -132,16 +121,15 @@ hlsSegmentCount: 7
 hlsSegmentDuration: 1s
 hlsPartDuration: 200ms
 hlsSegmentMaxSize: 50M
-hlsDirectory: ''
+hlsDirectory: ""
 hlsMuxerCloseAfter: 60s
-
 
 webrtc: true
 webrtcAddress: :8889
 webrtcEncryption: false
 webrtcServerKey: /certs/server.key
 webrtcServerCert: /certs/server.crt
-webrtcAllowOrigins: ['*']
+webrtcAllowOrigins: ["*"]
 webrtcTrustedProxies: []
 webrtcLocalUDPAddress: :8189
 webrtcLocalTCPAddress: :8189
@@ -153,125 +141,110 @@ webrtcSTUNGatherTimeout: 5s
 webrtcHandshakeTimeout: 10s
 webrtcTrackGatherTimeout: 2s
 
-
 srt: true
 srtAddress: :8890
 
-
 pathDefaults:
+    source: publisher
+    sourceFingerprint:
+    sourceOnDemand: false
+    sourceOnDemandStartTimeout: 10s
+    sourceOnDemandCloseAfter: 10s
+    maxReaders: 0
+    srtReadPassphrase:
+    useAbsoluteTimestamp: false
 
+    alwaysAvailable: false
+    alwaysAvailableTracks: []
+    alwaysAvailableFile: ""
 
-  source: publisher
-  sourceFingerprint:
-  sourceOnDemand: false
-  sourceOnDemandStartTimeout: 10s
-  sourceOnDemandCloseAfter: 10s
-  maxReaders: 0
-  srtReadPassphrase:
-  useAbsoluteTimestamp: false
+    record: false
+    recordPath: /recordings/%path/%Y-%m-%d_%H-%M-%S-%f
+    recordFormat: fmp4
+    recordPartDuration: 1s
+    recordMaxPartSize: 50M
+    recordSegmentDuration: 1h
+    recordDeleteAfter: 1d
 
+    overridePublisher: true
+    srtPublishPassphrase:
+    rtspDemuxMpegts: false
 
-  alwaysAvailable: false
-  alwaysAvailableTracks: []
-  alwaysAvailableFile: ''
+    rtspTransport: automatic
+    rtspAnyPort: false
+    rtspRangeType:
+    rtspRangeStart:
+    rtspUDPSourcePortRange: [10000, 65535]
 
+    rtpSDP:
 
-  record: false
-  recordPath: /recordings/%path/%Y-%m-%d_%H-%M-%S-%f
-  recordFormat: fmp4
-  recordPartDuration: 1s
-  recordMaxPartSize: 50M
-  recordSegmentDuration: 1h
-  recordDeleteAfter: 1d
+    whepBearerToken: ""
+    whepSTUNGatherTimeout: 5s
+    whepHandshakeTimeout: 10s
+    whepTrackGatherTimeout: 2s
 
+    sourceRedirect:
 
-  overridePublisher: true
-  srtPublishPassphrase:
-  rtspDemuxMpegts: false
+    rpiCameraCamID: 0
+    rpiCameraSecondary: false
+    rpiCameraWidth: 1920
+    rpiCameraHeight: 1080
+    rpiCameraHFlip: false
+    rpiCameraVFlip: false
+    rpiCameraBrightness: 0
+    rpiCameraContrast: 1
+    rpiCameraSaturation: 1
+    rpiCameraSharpness: 1
+    rpiCameraExposure: normal
+    rpiCameraAWB: auto
+    rpiCameraAWBGains: [0, 0]
+    rpiCameraDenoise: "off"
+    rpiCameraShutter: 0
+    rpiCameraMetering: centre
+    rpiCameraGain: 0
+    rpiCameraEV: 0
+    rpiCameraROI:
+    rpiCameraHDR: false
+    rpiCameraTuningFile:
+    rpiCameraMode:
+    rpiCameraFPS: 30
+    rpiCameraAfMode: continuous
+    rpiCameraAfRange: normal
+    rpiCameraAfSpeed: normal
+    rpiCameraLensPosition: 0.0
+    rpiCameraAfWindow:
+    rpiCameraFlickerPeriod: 0
+    rpiCameraTextOverlayEnable: false
+    rpiCameraTextOverlay: "%Y-%m-%d %H:%M:%S - MediaMTX"
+    rpiCameraCodec: auto
+    rpiCameraIDRPeriod: 60
+    rpiCameraBitrate: 5000000
+    rpiCameraHardwareH264Profile: main
+    rpiCameraHardwareH264Level: "4.1"
+    rpiCameraSoftwareH264Profile: baseline
+    rpiCameraSoftwareH264Level: "4.1"
+    rpiCameraMJPEGQuality: 60
 
+    runOnInit:
+    runOnInitRestart: false
 
-  rtspTransport: automatic
-  rtspAnyPort: false
-  rtspRangeType:
-  rtspRangeStart:
-  rtspUDPSourcePortRange: [10000, 65535]
+    runOnDemand:
+    runOnDemandRestart: false
+    runOnDemandStartTimeout: 10s
+    runOnDemandCloseAfter: 10s
+    runOnUnDemand:
 
+    runOnReady:
+    runOnReadyRestart: false
+    runOnNotReady:
 
-  rtpSDP:
+    runOnRead:
+    runOnReadRestart: false
+    runOnUnread:
 
+    runOnRecordSegmentCreate:
 
-  whepBearerToken: ''
-  whepSTUNGatherTimeout: 5s
-  whepHandshakeTimeout: 10s
-  whepTrackGatherTimeout: 2s
-
-
-  sourceRedirect:
-
-
-  rpiCameraCamID: 0
-  rpiCameraSecondary: false
-  rpiCameraWidth: 1920
-  rpiCameraHeight: 1080
-  rpiCameraHFlip: false
-  rpiCameraVFlip: false
-  rpiCameraBrightness: 0
-  rpiCameraContrast: 1
-  rpiCameraSaturation: 1
-  rpiCameraSharpness: 1
-  rpiCameraExposure: normal
-  rpiCameraAWB: auto
-  rpiCameraAWBGains: [0, 0]
-  rpiCameraDenoise: "off"
-  rpiCameraShutter: 0
-  rpiCameraMetering: centre
-  rpiCameraGain: 0
-  rpiCameraEV: 0
-  rpiCameraROI:
-  rpiCameraHDR: false
-  rpiCameraTuningFile:
-  rpiCameraMode:
-  rpiCameraFPS: 30
-  rpiCameraAfMode: continuous
-  rpiCameraAfRange: normal
-  rpiCameraAfSpeed: normal
-  rpiCameraLensPosition: 0.0
-  rpiCameraAfWindow:
-  rpiCameraFlickerPeriod: 0
-  rpiCameraTextOverlayEnable: false
-  rpiCameraTextOverlay: '%Y-%m-%d %H:%M:%S - MediaMTX'
-  rpiCameraCodec: auto
-  rpiCameraIDRPeriod: 60
-  rpiCameraBitrate: 5000000
-  rpiCameraHardwareH264Profile: main
-  rpiCameraHardwareH264Level: '4.1'
-  rpiCameraSoftwareH264Profile: baseline
-  rpiCameraSoftwareH264Level: '4.1'
-  rpiCameraMJPEGQuality: 60
-
-
-  runOnInit:
-  runOnInitRestart: false
-
-  runOnDemand:
-  runOnDemandRestart: false
-  runOnDemandStartTimeout: 10s
-  runOnDemandCloseAfter: 10s
-  runOnUnDemand:
-
-  runOnReady:
-  runOnReadyRestart: false
-  runOnNotReady:
-
-  runOnRead:
-  runOnReadRestart: false
-  runOnUnread:
-
-  runOnRecordSegmentCreate:
-
-  runOnRecordSegmentComplete:
-
+    runOnRecordSegmentComplete:
 
 paths:
-
-  all_others:
+    all_others:
